@@ -162,13 +162,13 @@ public class ActivityStackSupervisor implements RecentTasks.Callbacks {
     static final String TAG_TASKS = TAG + POSTFIX_TASKS;
 
     /** How long we wait until giving up on the last activity telling us it is idle. */
-    static final int IDLE_TIMEOUT = 10 * 1000;
+    static final int IDLE_TIMEOUT = 10 * 1000 * 10;
 
     /** How long we can hold the sleep wake lock before giving up. */
-    static final int SLEEP_TIMEOUT = 5 * 1000;
+    static final int SLEEP_TIMEOUT = 5 * 1000 * 10;
 
     // How long we can hold the launch wake lock before giving up.
-    static final int LAUNCH_TIMEOUT = 10 * 1000;
+    static final int LAUNCH_TIMEOUT = 10 * 1000 * 10;
 
     /** How long we wait until giving up on the activity telling us it released the top state. */
     static final int TOP_RESUMED_STATE_LOSS_TIMEOUT = 500;

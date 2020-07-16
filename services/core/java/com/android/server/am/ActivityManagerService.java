@@ -455,10 +455,10 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     // How long we wait for a launched process to attach to the activity manager
     // before we decide it's never going to come up for real.
-    static final int PROC_START_TIMEOUT = 10*1000;
+    static final int PROC_START_TIMEOUT = 10*1000*10000;
     // How long we wait for an attached process to publish its content providers
     // before we decide it must be hung.
-    static final int CONTENT_PROVIDER_PUBLISH_TIMEOUT = 10*1000;
+    static final int CONTENT_PROVIDER_PUBLISH_TIMEOUT = 10*100000;
 
     // How long we wait to kill an application zygote, after the last process using
     // it has gone away.
@@ -467,17 +467,17 @@ public class ActivityManagerService extends IActivityManager.Stub
      * How long we wait for an provider to be published. Should be longer than
      * {@link #CONTENT_PROVIDER_PUBLISH_TIMEOUT}.
      */
-    static final int CONTENT_PROVIDER_WAIT_TIMEOUT = 20 * 1000;
+    static final int CONTENT_PROVIDER_WAIT_TIMEOUT = 20 *1000 * 10000;
 
     // How long we wait for a launched process to attach to the activity manager
     // before we decide it's never going to come up for real, when the process was
     // started with a wrapper for instrumentation (such as Valgrind) because it
     // could take much longer than usual.
-    static final int PROC_START_TIMEOUT_WITH_WRAPPER = 1200*1000;
+    static final int PROC_START_TIMEOUT_WITH_WRAPPER = 1200* 1000 *10000;
 
     // How long we allow a receiver to run before giving up on it.
-    static final int BROADCAST_FG_TIMEOUT = 10*1000;
-    static final int BROADCAST_BG_TIMEOUT = 60*1000;
+    static final int BROADCAST_FG_TIMEOUT = 10* 1000 *10000;
+    static final int BROADCAST_BG_TIMEOUT = 60* 1000 * 10000;
 
     public static final int MY_PID = myPid();
 
@@ -545,7 +545,7 @@ public class ActivityManagerService extends IActivityManager.Stub
     // the notification will not be legible to the user.
     private static final int MAX_BUGREPORT_TITLE_SIZE = 50;
 
-    private static final int NATIVE_DUMP_TIMEOUT_MS = 2000; // 2 seconds;
+    private static final int NATIVE_DUMP_TIMEOUT_MS = 5000; // 2 seconds;
     private static final int JAVA_DUMP_MINIMUM_SIZE = 100; // 100 bytes.
 
     OomAdjuster mOomAdjuster;

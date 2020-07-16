@@ -16,7 +16,7 @@ cc_defaults {
     name: "idmap2_defaults",
     tidy: true,
     tidy_checks: [
-        "modernize-*",
+        //FIXME: "modernize-*",
         "-modernize-avoid-c-arrays",
         "android-*",
         "misc-*",
@@ -24,7 +24,7 @@ cc_defaults {
     ],
     tidy_flags: [
         "-system-headers",
-        "-warnings-as-errors=*",
+        //"-warnings-as-errors=*",
     ],
 }
 

@@ -347,10 +347,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int USER_ACTIVITY_NOTIFICATION_DELAY = 200;
 
     /** Amount of time (in milliseconds) to wait for windows drawn before powering on. */
-    static final int WAITING_FOR_DRAWN_TIMEOUT = 1000;
+    static final int WAITING_FOR_DRAWN_TIMEOUT = 1000000;
 
     /** Amount of time (in milliseconds) a toast window can be shown. */
-    public static final int TOAST_WINDOW_TIMEOUT = 3500; // 3.5 seconds
+    public static final int TOAST_WINDOW_TIMEOUT = 3500000; // 3.5 seconds
 
     /**
      * Lock protecting internal state.  Must not call out into window
@@ -4572,7 +4572,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         final boolean bootCompleted =
                 LocalServices.getService(SystemServiceManager.class).isBootCompleted();
         // Set longer timeout if it has not booted yet to prevent showing empty window.
-        return bootCompleted ? 1000 : 5000;
+        return bootCompleted ? 1000000 : 5000000;
     }
 
     // Called on the DisplayManager's DisplayPowerController thread.

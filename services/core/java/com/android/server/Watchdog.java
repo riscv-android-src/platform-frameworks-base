@@ -73,7 +73,7 @@ public class Watchdog extends Thread {
     //         can trigger the watchdog.
     // Note 2: The debug value is already below the wait time in ZygoteConnection. Wrapped
     //         applications may not work with a debug build. CTS will fail.
-    static final long DEFAULT_TIMEOUT = DB ? 10*1000 : 60*1000;
+    static final long DEFAULT_TIMEOUT = 600000*1000;//DB ? 10*1000 : 60*1000;
     static final long CHECK_INTERVAL = DEFAULT_TIMEOUT / 2;
 
     // These are temporally ordered: larger values as lateness increases

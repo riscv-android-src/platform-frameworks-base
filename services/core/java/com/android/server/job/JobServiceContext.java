@@ -74,9 +74,9 @@ public final class JobServiceContext implements ServiceConnection {
     /** Amount of time a job is allowed to execute for before being considered timed-out. */
     public static final long EXECUTING_TIMESLICE_MILLIS = 10 * 60 * 1000;  // 10mins.
     /** Amount of time the JobScheduler waits for the initial service launch+bind. */
-    private static final long OP_BIND_TIMEOUT_MILLIS = 18 * 1000;
+    private static final long OP_BIND_TIMEOUT_MILLIS = 18 * 1000 * 10;
     /** Amount of time the JobScheduler will wait for a response from an app for a message. */
-    private static final long OP_TIMEOUT_MILLIS = 8 * 1000;
+    private static final long OP_TIMEOUT_MILLIS = 8 * 1000 * 10;
 
     private static final String[] VERB_STRINGS = {
             "VERB_BINDING", "VERB_STARTING", "VERB_EXECUTING", "VERB_STOPPING", "VERB_FINISHED"

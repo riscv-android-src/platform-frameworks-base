@@ -110,7 +110,7 @@ cc_defaults {
         "src/shell/ShellSubscriber.cpp",
         "src/shell/shell_config.proto",
 
-        ":perfprofd_aidl",
+        //":perfprofd_aidl",
     ],
 
     local_include_dirs: [

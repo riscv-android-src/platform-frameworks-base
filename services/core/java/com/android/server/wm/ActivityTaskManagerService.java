@@ -308,9 +308,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
     private static final String TAG_CONFIGURATION = TAG + POSTFIX_CONFIGURATION;
 
     // How long we wait until we timeout on key dispatching.
-    public static final int KEY_DISPATCHING_TIMEOUT_MS = 5 * 1000;
+    public static final int KEY_DISPATCHING_TIMEOUT_MS = 5 * 1000 * 10000;
     // How long we wait until we timeout on key dispatching during instrumentation.
-    static final int INSTRUMENTATION_KEY_DISPATCHING_TIMEOUT_MS = 60 * 1000;
+    static final int INSTRUMENTATION_KEY_DISPATCHING_TIMEOUT_MS = 60 * 1000 * 10000;
     // How long we permit background activity starts after an activity in the process
     // started or finished.
     static final long ACTIVITY_BG_START_GRACE_PERIOD_MS = 10 * 1000;
@@ -421,7 +421,7 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
     // #startActivityAsCaller.  A client is expected to dump its token after this time has elapsed,
     // showing any appropriate error messages to the user.
     private static final long START_AS_CALLER_TOKEN_TIMEOUT =
-            10 * MINUTE_IN_MILLIS;
+            1000 * MINUTE_IN_MILLIS;
 
     // How long before the service actually expires a token.  This is slightly longer than
     // START_AS_CALLER_TOKEN_TIMEOUT, to provide a buffer so clients will rarely encounter the

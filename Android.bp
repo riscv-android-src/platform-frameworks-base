@@ -1287,7 +1287,7 @@ framework_docs_only_libs = [
     "android-support-emoji",
     "android-support-emoji-appcompat",
     "android-support-emoji-bundled",
-    "android-support-v8-renderscript",
+    //"android-support-v8-renderscript",
     "android-support-multidex",
     "android-support-multidex-instrumentation",
 ]

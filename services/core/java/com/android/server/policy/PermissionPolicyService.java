@@ -275,40 +275,40 @@ public final class PermissionPolicyService extends SystemService {
 
         final PackageManagerInternal packageManagerInternal = LocalServices.getService(
                 PackageManagerInternal.class);
-        if (packageManagerInternal.wereDefaultPermissionsGrantedSinceBoot(userId)) {
-            if (DEBUG) Slog.i(LOG_TAG, "defaultPermsWereGrantedSinceBoot(" + userId + ")");
+        //if (packageManagerInternal.wereDefaultPermissionsGrantedSinceBoot(userId)) {
+        //    if (DEBUG) Slog.i(LOG_TAG, "defaultPermsWereGrantedSinceBoot(" + userId + ")");
 
-            // Now call into the permission controller to apply policy around permissions
-            final CountDownLatch latch = new CountDownLatch(1);
+        //    // Now call into the permission controller to apply policy around permissions
+        //    final CountDownLatch latch = new CountDownLatch(1);
 
-            // We need to create a local manager that does not schedule work on the main
-            // there as we are on the main thread and want to block until the work is
-            // completed or we time out.
-            final PermissionControllerManager permissionControllerManager =
-                    new PermissionControllerManager(
-                            getUserContext(getContext(), UserHandle.of(userId)),
-                            FgThread.getHandler());
-            permissionControllerManager.grantOrUpgradeDefaultRuntimePermissions(
-                    FgThread.getExecutor(),
-                    (Boolean success) -> {
-                        if (!success) {
-                            // We are in an undefined state now, let us crash and have
-                            // rescue party suggest a wipe to recover to a good one.
-                            final String message = "Error granting/upgrading runtime permissions";
-                            Slog.wtf(LOG_TAG, message);
-                            throw new IllegalStateException(message);
-                        }
-                        latch.countDown();
-                    }
-            );
-            try {
-                latch.await();
-            } catch (InterruptedException e) {
-                /* ignore */
-            }
+        //    // We need to create a local manager that does not schedule work on the main
+        //    // there as we are on the main thread and want to block until the work is
+        //    // completed or we time out.
+        //    final PermissionControllerManager permissionControllerManager =
+        //            new PermissionControllerManager(
+        //                    getUserContext(getContext(), UserHandle.of(userId)),
+        //                    FgThread.getHandler());
+        //    permissionControllerManager.grantOrUpgradeDefaultRuntimePermissions(
+        //            FgThread.getExecutor(),
+        //            (Boolean success) -> {
+        //                if (!success) {
+        //                    // We are in an undefined state now, let us crash and have
+        //                    // rescue party suggest a wipe to recover to a good one.
+        //                    final String message = "Error granting/upgrading runtime permissions";
+        //                    Slog.wtf(LOG_TAG, message);
+        //                    throw new IllegalStateException(message);
+        //                }
+        //                latch.countDown();
+        //            }
+        //    );
+        //    try {
+        //        latch.await();
+        //    } catch (InterruptedException e) {
+        //        /* ignore */
+        //    }
 
-            packageManagerInternal.setRuntimePermissionsFingerPrint(Build.FINGERPRINT, userId);
-        }
+        //    packageManagerInternal.setRuntimePermissionsFingerPrint(Build.FINGERPRINT, userId);
+        //}
     }
 
     private static @Nullable Context getUserContext(@NonNull Context context,

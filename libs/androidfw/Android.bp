@@ -19,6 +19,7 @@ cc_defaults {
     cflags: [
         "-Werror",
         "-Wunreachable-code",
+        "-Wno-tautological-overlap-compare",
     ],
     target: {
         windows: {

@@ -32,7 +32,7 @@
 
 #include "frameworks/base/cmds/statsd/src/statsd_config.pb.h"  // Alert
 
-#include "android/os/IPerfProfd.h"
+//#include "android/os/IPerfProfd.h"
 
 namespace android {
 namespace os {
@@ -48,24 +48,25 @@ bool CollectPerfprofdTraceAndUploadToDropbox(const PerfprofdDetails& config,
       return false;
     }
 
-    sp<IPerfProfd> service = interface_cast<IPerfProfd>(
-        defaultServiceManager()->getService(android::String16("perfprofd")));
-    if (service == NULL) {
-      ALOGE("Could not find perfprofd service");
-      return false;
-    }
+    //sp<IPerfProfd> service = interface_cast<IPerfProfd>(
+    //    defaultServiceManager()->getService(android::String16("perfprofd")));
+    //if (service == NULL) {
+    //  ALOGE("Could not find perfprofd service");
+    //  return false;
+    //}
 
-    auto* data = reinterpret_cast<const uint8_t*>(config.perfprofd_config().data());
-    std::vector<uint8_t> proto_serialized(data, data + config.perfprofd_config().size());
+    //auto* data = reinterpret_cast<const uint8_t*>(config.perfprofd_config().data());
+    //std::vector<uint8_t> proto_serialized(data, data + config.perfprofd_config().size());
 
-    // TODO: alert-id etc?
+    //// TODO: alert-id etc?
 
-    binder::Status status = service->startProfilingProtobuf(proto_serialized);
-    if (status.isOk()) {
-      return true;
-    }
+    //binder::Status status = service->startProfilingProtobuf(proto_serialized);
+    //if (status.isOk()) {
+    //  return true;
+    //}
 
-    ALOGE("Error starting perfprofd profiling: %s", status.toString8().c_str());
+    //ALOGE("Error starting perfprofd profiling: %s", status.toString8().c_str());
+    ALOGE("Error starting perfprofd profiling: ");
     return false;
 }
 
