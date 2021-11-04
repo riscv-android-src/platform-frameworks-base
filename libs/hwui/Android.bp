@@ -65,9 +65,9 @@ cc_defaults {
 
     product_variables: {
         eng: {
-            lto: {
-                never: true,
-            },
+            //lto: {
+            //    never: true,
+            //},
         },
     },
 
@@ -177,7 +177,7 @@ cc_defaults {
     target: {
         android: {
             lto: {
-                thin: true,
+                thin: false,
             },
         },
     },
