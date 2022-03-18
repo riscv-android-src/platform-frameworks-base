@@ -37,16 +37,18 @@
 #include "android_runtime/android_util_AssetManager.h"
 #include "android/native_window.h"
 #include "android/native_window_jni.h"
-
+#if 0
 #include <rsEnv.h>
 #include <rsApiStubs.h>
+#endif
 #include <gui/Surface.h>
 #include <gui/GLConsumer.h>
 #include <android_runtime/android_graphics_SurfaceTexture.h>
 
+#if 0
 //#define LOG_API ALOGE
 static constexpr bool kLogApi = false;
-
+#endif
 using namespace android;
 
 #define PER_ARRAY_TYPE(flag, fnc, readonly, ...) {                                      \
@@ -312,7 +314,7 @@ static void _nInit(JNIEnv *_env, jclass _this)
 }
 
 // ---------------------------------------------------------------------------
-
+#if 0
 static void copyWithPadding(void* ptr, void* srcPtr, int mSize, int count) {
     int sizeBytesPad = mSize * 4;
     int sizeBytes = mSize * 3;
@@ -336,16 +338,18 @@ static void copyWithUnPadding(void* ptr, void* srcPtr, int mSize, int count) {
         src += sizeBytesPad;
     }
 }
-
+#endif
 
 // ---------------------------------------------------------------------------
 static void
 nContextFinish(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextFinish, con(%p)", (RsContext)con);
     }
     rsContextFinish((RsContext)con);
+#endif
 }
 
 static jlong
@@ -353,8 +357,8 @@ nClosureCreate(JNIEnv *_env, jobject _this, jlong con, jlong kernelID,
                jlong returnValue, jlongArray fieldIDArray,
                jlongArray valueArray, jintArray sizeArray,
                jlongArray depClosureArray, jlongArray depFieldIDArray) {
+#if 0
   jlong ret = 0;
-
   jlong* jFieldIDs = _env->GetLongArrayElements(fieldIDArray, nullptr);
   jsize fieldIDs_length = _env->GetArrayLength(fieldIDArray);
   if (jFieldIDs == nullptr) {
@@ -474,8 +478,9 @@ exit:
   _env->ReleaseIntArrayElements (sizeArray,       jSizes,       JNI_ABORT);
   _env->ReleaseLongArrayElements(valueArray,      jValues,      JNI_ABORT);
   _env->ReleaseLongArrayElements(fieldIDArray,    jFieldIDs,    JNI_ABORT);
-
   return ret;
+#endif
+  return 0;
 }
 
 static jlong
@@ -483,7 +488,7 @@ nInvokeClosureCreate(JNIEnv *_env, jobject _this, jlong con, jlong invokeID,
                      jbyteArray paramArray, jlongArray fieldIDArray, jlongArray valueArray,
                      jintArray sizeArray) {
   jlong ret = 0;
-
+#if 0
   jbyte* jParams = _env->GetByteArrayElements(paramArray, nullptr);
   jsize jParamLength = _env->GetArrayLength(paramArray);
   if (jParams == nullptr) {
@@ -547,29 +552,34 @@ exit:
   _env->ReleaseLongArrayElements(valueArray,      jValues,      JNI_ABORT);
   _env->ReleaseLongArrayElements(fieldIDArray,    jFieldIDs,    JNI_ABORT);
   _env->ReleaseByteArrayElements(paramArray,      jParams,      JNI_ABORT);
-
+#endif
   return ret;
 }
 
 static void
 nClosureSetArg(JNIEnv *_env, jobject _this, jlong con, jlong closureID,
                jint index, jlong value, jint size) {
+#if 0
   // Size is signed with -1 indicating the value is an Allocation
   rsClosureSetArg((RsContext)con, (RsClosure)closureID, (uint32_t)index,
                   (uintptr_t)value, size);
+#endif
 }
 
 static void
 nClosureSetGlobal(JNIEnv *_env, jobject _this, jlong con, jlong closureID,
                   jlong fieldID, jlong value, jint size) {
+#if 0
   // Size is signed with -1 indicating the value is an Allocation
   rsClosureSetGlobal((RsContext)con, (RsClosure)closureID,
                      (RsScriptFieldID)fieldID, (int64_t)value, size);
+#endif
 }
 
 static long
 nScriptGroup2Create(JNIEnv *_env, jobject _this, jlong con, jstring name,
                     jstring cacheDir, jlongArray closureArray) {
+#if 0
   jlong ret = 0;
 
   AutoJavaStringToUTF8 nameUTF(_env, name);
@@ -608,11 +618,15 @@ exit:
   _env->ReleaseLongArrayElements(closureArray, jClosures, JNI_ABORT);
 
   return ret;
+#endif
+  return 0;
 }
 
 static void
 nScriptGroup2Execute(JNIEnv *_env, jobject _this, jlong con, jlong groupID) {
+#if 0
   rsScriptGroupExecute((RsContext)con, (RsScriptGroup2)groupID);
+#endif
 }
 
 static void
@@ -620,6 +634,7 @@ nScriptIntrinsicBLAS_Single(JNIEnv *_env, jobject _this, jlong con, jlong id, ji
                             jint TransB, jint Side, jint Uplo, jint Diag, jint M, jint N, jint K,
                             jfloat alpha, jlong A, jlong B, jfloat beta, jlong C, jint incX, jint incY,
                             jint KL, jint KU) {
+#if 0
     RsBlasCall call;
     memset(&call, 0, sizeof(call));
     call.func = (RsBlasFunction)func;
@@ -646,6 +661,7 @@ nScriptIntrinsicBLAS_Single(JNIEnv *_env, jobject _this, jlong con, jlong id, ji
     rsScriptForEachMulti((RsContext)con, (RsScript)id, 0,
                          in_allocs, NELEM(in_allocs), nullptr,
                          &call, sizeof(call), nullptr, 0);
+#endif
 }
 
 static void
@@ -653,6 +669,7 @@ nScriptIntrinsicBLAS_Double(JNIEnv *_env, jobject _this, jlong con, jlong id, ji
                             jint TransB, jint Side, jint Uplo, jint Diag, jint M, jint N, jint K,
                             jdouble alpha, jlong A, jlong B, jdouble beta, jlong C, jint incX, jint incY,
                             jint KL, jint KU) {
+#if 0
     RsBlasCall call;
     memset(&call, 0, sizeof(call));
     call.func = (RsBlasFunction)func;
@@ -679,6 +696,7 @@ nScriptIntrinsicBLAS_Double(JNIEnv *_env, jobject _this, jlong con, jlong id, ji
     rsScriptForEachMulti((RsContext)con, (RsScript)id, 0,
                          in_allocs, NELEM(in_allocs), nullptr,
                          &call, sizeof(call), nullptr, 0);
+#endif
 }
 
 static void
@@ -686,6 +704,7 @@ nScriptIntrinsicBLAS_Complex(JNIEnv *_env, jobject _this, jlong con, jlong id, j
                              jint TransB, jint Side, jint Uplo, jint Diag, jint M, jint N, jint K,
                              jfloat alphaX, jfloat alphaY, jlong A, jlong B, jfloat betaX,
                              jfloat betaY, jlong C, jint incX, jint incY, jint KL, jint KU) {
+#if 0
     RsBlasCall call;
     memset(&call, 0, sizeof(call));
     call.func = (RsBlasFunction)func;
@@ -714,6 +733,7 @@ nScriptIntrinsicBLAS_Complex(JNIEnv *_env, jobject _this, jlong con, jlong id, j
     rsScriptForEachMulti((RsContext)con, (RsScript)id, 0,
                          in_allocs, NELEM(in_allocs), nullptr,
                          &call, sizeof(call), nullptr, 0);
+#endif
 }
 
 static void
@@ -721,6 +741,7 @@ nScriptIntrinsicBLAS_Z(JNIEnv *_env, jobject _this, jlong con, jlong id, jint fu
                        jint TransB, jint Side, jint Uplo, jint Diag, jint M, jint N, jint K,
                        jdouble alphaX, jdouble alphaY, jlong A, jlong B, jdouble betaX,
                        jdouble betaY, jlong C, jint incX, jint incY, jint KL, jint KU) {
+#if 0
     RsBlasCall call;
     memset(&call, 0, sizeof(call));
     call.func = (RsBlasFunction)func;
@@ -749,6 +770,7 @@ nScriptIntrinsicBLAS_Z(JNIEnv *_env, jobject _this, jlong con, jlong id, jint fu
     rsScriptForEachMulti((RsContext)con, (RsScript)id, 0,
                          in_allocs, NELEM(in_allocs), nullptr,
                          &call, sizeof(call), nullptr, 0);
+#endif
 }
 
 
@@ -756,6 +778,7 @@ static void
 nScriptIntrinsicBLAS_BNNM(JNIEnv *_env, jobject _this, jlong con, jlong id, jint M, jint N, jint K,
                                              jlong A, jint a_offset, jlong B, jint b_offset, jlong C, jint c_offset,
                                              jint c_mult_int) {
+#if 0
     RsBlasCall call;
     memset(&call, 0, sizeof(call));
     call.func = RsBlas_bnnm;
@@ -775,12 +798,14 @@ nScriptIntrinsicBLAS_BNNM(JNIEnv *_env, jobject _this, jlong con, jlong id, jint
     rsScriptForEachMulti((RsContext)con, (RsScript)id, 0,
                          in_allocs, NELEM(in_allocs), nullptr,
                          &call, sizeof(call), nullptr, 0);
+#endif
 }
 
 
 static void
 nAssignName(JNIEnv *_env, jobject _this, jlong con, jlong obj, jbyteArray str)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAssignName, con(%p), obj(%p)", (RsContext)con, (void *)obj);
     }
@@ -793,11 +818,13 @@ nAssignName(JNIEnv *_env, jobject _this, jlong con, jlong obj, jbyteArray str)
 
     rsAssignName((RsContext)con, (void *)obj, (const char *)cptr, len);
     _env->ReleasePrimitiveArrayCritical(str, cptr, JNI_ABORT);
+#endif
 }
 
 static jstring
 nGetName(JNIEnv *_env, jobject _this, jlong con, jlong obj)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nGetName, con(%p), obj(%p)", (RsContext)con, (void *)obj);
     }
@@ -807,15 +834,19 @@ nGetName(JNIEnv *_env, jobject _this, jlong con, jlong obj)
         return nullptr;
     }
     return _env->NewStringUTF(name);
+#endif
+    return nullptr;
 }
 
 static void
 nObjDestroy(JNIEnv *_env, jobject _this, jlong con, jlong obj)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nObjDestroy, con(%p) obj(%p)", (RsContext)con, (void *)obj);
     }
     rsObjDestroy((RsContext)con, (void *)obj);
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -823,37 +854,47 @@ nObjDestroy(JNIEnv *_env, jobject _this, jlong con, jlong obj)
 static jlong
 nDeviceCreate(JNIEnv *_env, jobject _this)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nDeviceCreate");
     }
     return (jlong)(uintptr_t)rsDeviceCreate();
+#endif
+    return 0;
 }
 
 static void
 nDeviceDestroy(JNIEnv *_env, jobject _this, jlong dev)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nDeviceDestroy");
     }
     return rsDeviceDestroy((RsDevice)dev);
+#endif
 }
 
 static void
 nDeviceSetConfig(JNIEnv *_env, jobject _this, jlong dev, jint p, jint value)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nDeviceSetConfig  dev(%p), param(%i), value(%i)", (void *)dev, p, value);
     }
     return rsDeviceSetConfig((RsDevice)dev, (RsDeviceParam)p, value);
+#endif
 }
 
 static jlong
 nContextCreate(JNIEnv *_env, jobject _this, jlong dev, jint flags, jint sdkVer, jint contextType)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextCreate");
     }
     return (jlong)(uintptr_t)rsContextCreate((RsDevice)dev, 0, sdkVer, (RsContextType)contextType, flags);
+#endif
+    return 0;
 }
 
 static jlong
@@ -865,6 +906,7 @@ nContextCreateGL(JNIEnv *_env, jobject _this, jlong dev, jint ver, jint sdkVer,
                  jint samplesMin, jint samplesPref, jfloat samplesQ,
                  jint dpi)
 {
+#if 0
     RsSurfaceConfig sc = {};
     sc.alphaMin = alphaMin;
     sc.alphaPref = alphaPref;
@@ -880,26 +922,32 @@ nContextCreateGL(JNIEnv *_env, jobject _this, jlong dev, jint ver, jint sdkVer,
         ALOGD("nContextCreateGL");
     }
     return (jlong)(uintptr_t)rsContextCreateGL((RsDevice)dev, ver, sdkVer, sc, dpi);
+#endif
+    return 0;
 }
 
 static void
 nContextSetPriority(JNIEnv *_env, jobject _this, jlong con, jint p)
 {
+#if 0
     if (kLogApi) {
         ALOGD("ContextSetPriority, con(%p), priority(%i)", (RsContext)con, p);
     }
     rsContextSetPriority((RsContext)con, p);
+#endif
 }
 
 static void
 nContextSetCacheDir(JNIEnv *_env, jobject _this, jlong con, jstring cacheDir)
 {
+#if 0
     AutoJavaStringToUTF8 cacheDirUTF(_env, cacheDir);
 
     if (kLogApi) {
         ALOGD("ContextSetCacheDir, con(%p), cacheDir(%s)", (RsContext)con, cacheDirUTF.c_str());
     }
     rsContextSetCacheDir((RsContext)con, cacheDirUTF.c_str(), cacheDirUTF.length());
+#endif
 }
 
 
@@ -907,6 +955,7 @@ nContextSetCacheDir(JNIEnv *_env, jobject _this, jlong con, jstring cacheDir)
 static void
 nContextSetSurface(JNIEnv *_env, jobject _this, jlong con, jint width, jint height, jobject wnd)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextSetSurface, con(%p), width(%i), height(%i), surface(%p)", (RsContext)con,
               width, height, (Surface *)wnd);
@@ -920,48 +969,58 @@ nContextSetSurface(JNIEnv *_env, jobject _this, jlong con, jint width, jint heig
     }
 
     rsContextSetSurface((RsContext)con, width, height, window);
+#endif
 }
 
 static void
 nContextDestroy(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextDestroy, con(%p)", (RsContext)con);
     }
     rsContextDestroy((RsContext)con);
+#endif
 }
 
 static void
 nContextDump(JNIEnv *_env, jobject _this, jlong con, jint bits)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextDump, con(%p)  bits(%i)", (RsContext)con, bits);
     }
     rsContextDump((RsContext)con, bits);
+#endif
 }
 
 static void
 nContextPause(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextPause, con(%p)", (RsContext)con);
     }
     rsContextPause((RsContext)con);
+#endif
 }
 
 static void
 nContextResume(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextResume, con(%p)", (RsContext)con);
     }
     rsContextResume((RsContext)con);
+#endif
 }
 
 
 static jstring
 nContextGetErrorMessage(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextGetErrorMessage, con(%p)", (RsContext)con);
     }
@@ -977,11 +1036,14 @@ nContextGetErrorMessage(JNIEnv *_env, jobject _this, jlong con)
         ALOGV("message receive buffer too small.  %zu", receiveLen);
     }
     return _env->NewStringUTF(buf);
+#endif
+    return nullptr;
 }
 
 static jint
 nContextGetUserMessage(JNIEnv *_env, jobject _this, jlong con, jintArray data)
 {
+#if 0
     jint len = _env->GetArrayLength(data);
     if (kLogApi) {
         ALOGD("nContextGetMessage, con(%p), len(%i)", (RsContext)con, len);
@@ -1002,11 +1064,14 @@ nContextGetUserMessage(JNIEnv *_env, jobject _this, jlong con, jintArray data)
     }
     _env->ReleaseIntArrayElements(data, ptr, 0);
     return (jint)id;
+#endif
+    return 0;
 }
 
 static jint
 nContextPeekMessage(JNIEnv *_env, jobject _this, jlong con, jintArray auxData)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextPeekMessage, con(%p)", (RsContext)con);
     }
@@ -1023,27 +1088,34 @@ nContextPeekMessage(JNIEnv *_env, jobject _this, jlong con, jintArray auxData)
     auxDataPtr[1] = (jint)receiveLen;
     _env->ReleaseIntArrayElements(auxData, auxDataPtr, 0);
     return (jint)id;
+#endif
+    return 0;
 }
 
 static void nContextInitToClient(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextInitToClient, con(%p)", (RsContext)con);
     }
     rsContextInitToClient((RsContext)con);
+#endif
 }
 
 static void nContextDeinitToClient(JNIEnv *_env, jobject _this, jlong con)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextDeinitToClient, con(%p)", (RsContext)con);
     }
     rsContextDeinitToClient((RsContext)con);
+#endif
 }
 
 static void
 nContextSendMessage(JNIEnv *_env, jobject _this, jlong con, jint id, jintArray data)
 {
+#if 0
     jint *ptr = nullptr;
     jint len = 0;
     if (data) {
@@ -1061,6 +1133,7 @@ nContextSendMessage(JNIEnv *_env, jobject _this, jlong con, jint id, jintArray d
     if (data) {
         _env->ReleaseIntArrayElements(data, ptr, JNI_ABORT);
     }
+#endif
 }
 
 
@@ -1069,18 +1142,22 @@ static jlong
 nElementCreate(JNIEnv *_env, jobject _this, jlong con, jlong type, jint kind, jboolean norm,
                jint size)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nElementCreate, con(%p), type(%" PRId64 "), kind(%i), norm(%i), size(%i)", (RsContext)con,
               type, kind, norm, size);
     }
     return (jlong)(uintptr_t)rsElementCreate((RsContext)con, (RsDataType)type, (RsDataKind)kind,
                                              norm, size);
+#endif
+    return 0;
 }
 
 static jlong
 nElementCreate2(JNIEnv *_env, jobject _this, jlong con,
                 jlongArray _ids, jobjectArray _names, jintArray _arraySizes)
 {
+#if 0
     int fieldCount = _env->GetArrayLength(_ids);
     if (kLogApi) {
         ALOGD("nElementCreate2, con(%p)", (RsContext)con);
@@ -1121,11 +1198,14 @@ nElementCreate2(JNIEnv *_env, jobject _this, jlong con,
     _env->ReleaseIntArrayElements(_arraySizes, jArraySizes, JNI_ABORT);
 
     return (jlong)(uintptr_t)id;
+#endif
+    return 0;
 }
 
 static void
 nElementGetNativeData(JNIEnv *_env, jobject _this, jlong con, jlong id, jintArray _elementData)
 {
+#if 0
     int dataSize = _env->GetArrayLength(_elementData);
     if (kLogApi) {
         ALOGD("nElementGetNativeData, con(%p)", (RsContext)con);
@@ -1141,6 +1221,7 @@ nElementGetNativeData(JNIEnv *_env, jobject _this, jlong con, jlong id, jintArra
         const jint data = (jint)elementData[i];
         _env->SetIntArrayRegion(_elementData, i, 1, &data);
     }
+#endif
 }
 
 
@@ -1150,6 +1231,7 @@ nElementGetSubElements(JNIEnv *_env, jobject _this, jlong con, jlong id,
                        jobjectArray _names,
                        jintArray _arraySizes)
 {
+#if 0
     uint32_t dataSize = _env->GetArrayLength(_IDs);
     if (kLogApi) {
         ALOGD("nElementGetSubElements, con(%p)", (RsContext)con);
@@ -1173,6 +1255,7 @@ nElementGetSubElements(JNIEnv *_env, jobject _this, jlong con, jlong id,
     free(ids);
     free(names);
     free(arraySizes);
+#endif
 }
 
 // -----------------------------------
@@ -1181,6 +1264,7 @@ static jlong
 nTypeCreate(JNIEnv *_env, jobject _this, jlong con, jlong eid,
             jint dimx, jint dimy, jint dimz, jboolean mips, jboolean faces, jint yuv)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nTypeCreate, con(%p) eid(%p), x(%i), y(%i), z(%i), mips(%i), faces(%i), yuv(%i)",
               (RsContext)con, (void*)eid, dimx, dimy, dimz, mips, faces, yuv);
@@ -1188,11 +1272,14 @@ nTypeCreate(JNIEnv *_env, jobject _this, jlong con, jlong eid,
 
     return (jlong)(uintptr_t)rsTypeCreate((RsContext)con, (RsElement)eid, dimx, dimy, dimz, mips,
                                           faces, yuv);
+#endif
+    return 0;
 }
 
 static void
 nTypeGetNativeData(JNIEnv *_env, jobject _this, jlong con, jlong id, jlongArray _typeData)
 {
+#if 0
     // We are packing 6 items: mDimX; mDimY; mDimZ;
     // mDimLOD; mDimFaces; mElement; into typeData
     int elementCount = _env->GetArrayLength(_typeData);
@@ -1209,6 +1296,7 @@ nTypeGetNativeData(JNIEnv *_env, jobject _this, jlong con, jlong id, jlongArray 
         const jlong data = (jlong)(uintptr_t)typeData[i];
         _env->SetLongArrayRegion(_typeData, i, 1, &data);
     }
+#endif
 }
 
 // -----------------------------------
@@ -1217,6 +1305,7 @@ static jlong
 nAllocationCreateTyped(JNIEnv *_env, jobject _this, jlong con, jlong type, jint mips, jint usage,
                        jlong pointer)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationCreateTyped, con(%p), type(%p), mip(%i), usage(%i), ptr(%p)",
               (RsContext)con, (RsElement)type, mips, usage, (void *)pointer);
@@ -1224,42 +1313,51 @@ nAllocationCreateTyped(JNIEnv *_env, jobject _this, jlong con, jlong type, jint 
     return (jlong)(uintptr_t) rsAllocationCreateTyped((RsContext)con, (RsType)type,
                                                       (RsAllocationMipmapControl)mips,
                                                       (uint32_t)usage, (uintptr_t)pointer);
+#endif
+    return 0;
 }
 
 static void
 nAllocationSyncAll(JNIEnv *_env, jobject _this, jlong con, jlong a, jint bits)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationSyncAll, con(%p), a(%p), bits(0x%08x)", (RsContext)con, (RsAllocation)a,
               bits);
     }
     rsAllocationSyncAll((RsContext)con, (RsAllocation)a, (RsAllocationUsageType)bits);
+#endif
 }
 
 static void
 nAllocationSetupBufferQueue(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jint numAlloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationSetupBufferQueue, con(%p), alloc(%p), numAlloc(%d)", (RsContext)con,
               (RsAllocation)alloc, numAlloc);
     }
     rsAllocationSetupBufferQueue((RsContext)con, (RsAllocation)alloc, (uint32_t)numAlloc);
+#endif
 }
 
 static void
 nAllocationShareBufferQueue(JNIEnv *_env, jobject _this, jlong con, jlong alloc1, jlong alloc2)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationShareBufferQueue, con(%p), alloc1(%p), alloc2(%p)", (RsContext)con,
               (RsAllocation)alloc1, (RsAllocation)alloc2);
     }
 
     rsAllocationShareBufferQueue((RsContext)con, (RsAllocation)alloc1, (RsAllocation)alloc2);
+#endif
 }
 
 static jobject
 nAllocationGetSurface(JNIEnv *_env, jobject _this, jlong con, jlong a)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationGetSurface, con(%p), a(%p)", (RsContext)con, (RsAllocation)a);
     }
@@ -1271,11 +1369,14 @@ nAllocationGetSurface(JNIEnv *_env, jobject _this, jlong con, jlong a)
 
     jobject o = android_view_Surface_createFromIGraphicBufferProducer(_env, bp);
     return o;
+#endif
+    return nullptr;
 }
 
 static void
 nAllocationSetSurface(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jobject sur)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationSetSurface, con(%p), alloc(%p), surface(%p)", (RsContext)con,
               (RsAllocation)alloc, (Surface *)sur);
@@ -1289,79 +1390,97 @@ nAllocationSetSurface(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jobje
     }
 
     rsAllocationSetSurface((RsContext)con, (RsAllocation)alloc, anw);
+#endif
 }
 
 static void
 nAllocationIoSend(JNIEnv *_env, jobject _this, jlong con, jlong alloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationIoSend, con(%p), alloc(%p)", (RsContext)con, (RsAllocation)alloc);
     }
     rsAllocationIoSend((RsContext)con, (RsAllocation)alloc);
+#endif
 }
 
 static jlong
 nAllocationIoReceive(JNIEnv *_env, jobject _this, jlong con, jlong alloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationIoReceive, con(%p), alloc(%p)", (RsContext)con, (RsAllocation)alloc);
     }
     return (jlong) rsAllocationIoReceive((RsContext)con, (RsAllocation)alloc);
+#endif
+    return 0;
 }
 
 static void
 nAllocationGenerateMipmaps(JNIEnv *_env, jobject _this, jlong con, jlong alloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationGenerateMipmaps, con(%p), a(%p)", (RsContext)con, (RsAllocation)alloc);
     }
     rsAllocationGenerateMipmaps((RsContext)con, (RsAllocation)alloc);
+#endif
 }
-
+#if 0
 static size_t computeByteSize(const android::graphics::Bitmap& bitmap) {
     AndroidBitmapInfo info = bitmap.getInfo();
     return info.height * info.stride;
 }
-
+#endif
 static jlong
 nAllocationCreateFromBitmap(JNIEnv *_env, jobject _this, jlong con, jlong type, jint mip,
                             jobject jbitmap, jint usage)
 {
+#if 0
     android::graphics::Bitmap bitmap(_env, jbitmap);
     const void* ptr = bitmap.getPixels();
     jlong id = (jlong)(uintptr_t)rsAllocationCreateFromBitmap((RsContext)con,
                                                   (RsType)type, (RsAllocationMipmapControl)mip,
                                                   ptr, computeByteSize(bitmap), usage);
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nAllocationCreateBitmapBackedAllocation(JNIEnv *_env, jobject _this, jlong con, jlong type,
                                         jint mip, jobject jbitmap, jint usage)
 {
+#if 0
     android::graphics::Bitmap bitmap(_env, jbitmap);
     const void* ptr = bitmap.getPixels();
     jlong id = (jlong)(uintptr_t)rsAllocationCreateTyped((RsContext)con,
                                             (RsType)type, (RsAllocationMipmapControl)mip,
                                             (uint32_t)usage, (uintptr_t)ptr);
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nAllocationCubeCreateFromBitmap(JNIEnv *_env, jobject _this, jlong con, jlong type, jint mip,
                                 jobject jbitmap, jint usage)
 {
+#if 0
     android::graphics::Bitmap bitmap(_env, jbitmap);
     const void* ptr = bitmap.getPixels();
     jlong id = (jlong)(uintptr_t)rsAllocationCubeCreateFromBitmap((RsContext)con,
                                                       (RsType)type, (RsAllocationMipmapControl)mip,
                                                       ptr, computeByteSize(bitmap), usage);
     return id;
+#endif
+    return 0;
 }
 
 static void
 nAllocationCopyFromBitmap(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jobject jbitmap)
 {
+#if 0
     android::graphics::Bitmap bitmap(_env, jbitmap);
     int w = bitmap.getInfo().width;
     int h = bitmap.getInfo().height;
@@ -1370,15 +1489,18 @@ nAllocationCopyFromBitmap(JNIEnv *_env, jobject _this, jlong con, jlong alloc, j
     rsAllocation2DData((RsContext)con, (RsAllocation)alloc, 0, 0,
                        0, RS_ALLOCATION_CUBEMAP_FACE_POSITIVE_X,
                        w, h, ptr, computeByteSize(bitmap), 0);
+#endif
 }
 
 static void
 nAllocationCopyToBitmap(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jobject jbitmap)
 {
+#if 0
     android::graphics::Bitmap bitmap(_env, jbitmap);
     void* ptr = bitmap.getPixels();
     rsAllocationCopyToBitmap((RsContext)con, (RsAllocation)alloc, ptr, computeByteSize(bitmap));
     bitmap.notifyPixelsChanged();
+#endif
 }
 
 // Copies from the Java object data into the Allocation pointed to by _alloc.
@@ -1387,6 +1509,7 @@ nAllocationData1D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint off
                   jint count, jobject data, jint sizeBytes, jint dataType, jint mSize,
                   jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     if (kLogApi) {
         ALOGD("nAllocation1DData, con(%p), adapter(%p), offset(%i), count(%i), sizeBytes(%i), "
@@ -1395,6 +1518,7 @@ nAllocationData1D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint off
     }
     PER_ARRAY_TYPE(nullptr, rsAllocation1DData, true,
                    (RsContext)con, alloc, offset, lod, count, ptr, sizeBytes);
+#endif
 }
 
 static void
@@ -1402,6 +1526,7 @@ nAllocationElementData(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                        jint xoff, jint yoff, jint zoff,
                        jint lod, jint compIdx, jbyteArray data, jint sizeBytes)
 {
+#if 0
     if (kLogApi) {
         jint len = _env->GetArrayLength(data);
         ALOGD("nAllocationElementData, con(%p), alloc(%p), xoff(%i), yoff(%i), zoff(%i), comp(%i), len(%i), "
@@ -1417,6 +1542,7 @@ nAllocationElementData(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                             xoff, yoff, zoff,
                             lod, ptr, sizeBytes, compIdx);
     _env->ReleaseByteArrayElements(data, ptr, JNI_ABORT);
+#endif
 }
 
 
@@ -1426,6 +1552,7 @@ nAllocationData2D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
                   jint w, jint h, jobject data, jint sizeBytes, jint dataType, jint mSize,
                   jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     RsAllocationCubemapFace face = (RsAllocationCubemapFace)_face;
     if (kLogApi) {
@@ -1435,6 +1562,7 @@ nAllocationData2D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
     int count = w * h;
     PER_ARRAY_TYPE(nullptr, rsAllocation2DData, true,
                    (RsContext)con, alloc, xoff, yoff, lod, face, w, h, ptr, sizeBytes, 0);
+#endif
 }
 
 // Copies from the Allocation pointed to by srcAlloc into the Allocation
@@ -1447,6 +1575,7 @@ nAllocationData2D_alloc(JNIEnv *_env, jobject _this, jlong con,
                         jlong srcAlloc, jint srcXoff, jint srcYoff,
                         jint srcMip, jint srcFace)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocation2DData_s, con(%p), dstAlloc(%p), dstXoff(%i), dstYoff(%i),"
               " dstMip(%i), dstFace(%i), width(%i), height(%i),"
@@ -1463,6 +1592,7 @@ nAllocationData2D_alloc(JNIEnv *_env, jobject _this, jlong con,
                             (RsAllocation)srcAlloc,
                             srcXoff, srcYoff,
                             srcMip, srcFace);
+#endif
 }
 
 // Copies from the Java object data into the Allocation pointed to by _alloc.
@@ -1471,6 +1601,7 @@ nAllocationData3D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
                   jint w, jint h, jint d, jobject data, jint sizeBytes, jint dataType,
                   jint mSize, jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     if (kLogApi) {
         ALOGD("nAllocation3DData, con(%p), alloc(%p), xoff(%i), yoff(%i), zoff(%i), lod(%i), w(%i),"
@@ -1480,6 +1611,7 @@ nAllocationData3D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
     int count = w * h * d;
     PER_ARRAY_TYPE(nullptr, rsAllocation3DData, true,
                    (RsContext)con, alloc, xoff, yoff, zoff, lod, w, h, d, ptr, sizeBytes, 0);
+#endif
 }
 
 // Copies from the Allocation pointed to by srcAlloc into the Allocation
@@ -1492,6 +1624,7 @@ nAllocationData3D_alloc(JNIEnv *_env, jobject _this, jlong con,
                         jlong srcAlloc, jint srcXoff, jint srcYoff, jint srcZoff,
                         jint srcMip)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationData3D_alloc, con(%p), dstAlloc(%p), dstXoff(%i), dstYoff(%i),"
               " dstMip(%i), width(%i), height(%i),"
@@ -1506,6 +1639,7 @@ nAllocationData3D_alloc(JNIEnv *_env, jobject _this, jlong con,
                             width, height, depth,
                             (RsAllocation)srcAlloc,
                             srcXoff, srcYoff, srcZoff, srcMip);
+#endif
 }
 
 
@@ -1514,6 +1648,7 @@ static void
 nAllocationRead(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jobject data, jint dataType,
                 jint mSize, jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     if (kLogApi) {
         ALOGD("nAllocationRead, con(%p), alloc(%p)", (RsContext)con, (RsAllocation)alloc);
@@ -1521,6 +1656,7 @@ nAllocationRead(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jobject da
     int count = 0;
     PER_ARRAY_TYPE(0, rsAllocationRead, false,
                    (RsContext)con, alloc, ptr, len * typeBytes);
+#endif
 }
 
 // Copies from the Allocation pointed to by _alloc into the Java object data.
@@ -1529,6 +1665,7 @@ nAllocationRead1D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint off
                   jint count, jobject data, jint sizeBytes, jint dataType,
                   jint mSize, jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     if (kLogApi) {
         ALOGD("nAllocation1DRead, con(%p), adapter(%p), offset(%i), count(%i), sizeBytes(%i), "
@@ -1536,6 +1673,7 @@ nAllocationRead1D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint off
     }
     PER_ARRAY_TYPE(0, rsAllocation1DRead, false,
                    (RsContext)con, alloc, offset, lod, count, ptr, sizeBytes);
+#endif
 }
 
 // Copies from the Element in the Allocation pointed to by _alloc into the Java array data.
@@ -1544,6 +1682,7 @@ nAllocationElementRead(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                        jint xoff, jint yoff, jint zoff,
                        jint lod, jint compIdx, jbyteArray data, jint sizeBytes)
 {
+#if 0
     if (kLogApi) {
         jint len = _env->GetArrayLength(data);
         ALOGD("nAllocationElementRead, con(%p), alloc(%p), xoff(%i), yoff(%i), zoff(%i), comp(%i), len(%i), "
@@ -1559,6 +1698,7 @@ nAllocationElementRead(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                             xoff, yoff, zoff,
                             lod, ptr, sizeBytes, compIdx);
     _env->ReleaseByteArrayElements(data, ptr, 0);
+#endif
 }
 
 // Copies from the Allocation pointed to by _alloc into the Java object data.
@@ -1567,6 +1707,7 @@ nAllocationRead2D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
                   jint w, jint h, jobject data, jint sizeBytes, jint dataType,
                   jint mSize, jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     RsAllocationCubemapFace face = (RsAllocationCubemapFace)_face;
     if (kLogApi) {
@@ -1576,6 +1717,7 @@ nAllocationRead2D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
     int count = w * h;
     PER_ARRAY_TYPE(0, rsAllocation2DRead, false,
                    (RsContext)con, alloc, xoff, yoff, lod, face, w, h, ptr, sizeBytes, 0);
+#endif
 }
 
 // Copies from the Allocation pointed to by _alloc into the Java object data.
@@ -1584,6 +1726,7 @@ nAllocationRead3D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
                   jint w, jint h, jint d, jobject data, int sizeBytes, int dataType,
                   jint mSize, jboolean usePadding)
 {
+#if 0
     RsAllocation *alloc = (RsAllocation *)_alloc;
     if (kLogApi) {
         ALOGD("nAllocation3DRead, con(%p), alloc(%p), xoff(%i), yoff(%i), zoff(%i), lod(%i), w(%i),"
@@ -1593,38 +1736,46 @@ nAllocationRead3D(JNIEnv *_env, jobject _this, jlong con, jlong _alloc, jint xof
     int count = w * h * d;
     PER_ARRAY_TYPE(nullptr, rsAllocation3DRead, false,
                    (RsContext)con, alloc, xoff, yoff, zoff, lod, w, h, d, ptr, sizeBytes, 0);
+#endif
 }
 
 static jlong
 nAllocationGetType(JNIEnv *_env, jobject _this, jlong con, jlong a)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationGetType, con(%p), a(%p)", (RsContext)con, (RsAllocation)a);
     }
     return (jlong)(uintptr_t) rsaAllocationGetType((RsContext)con, (RsAllocation)a);
+#endif
+    return 0;
 }
 
 static void
 nAllocationResize1D(JNIEnv *_env, jobject _this, jlong con, jlong alloc, jint dimX)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationResize1D, con(%p), alloc(%p), sizeX(%i)", (RsContext)con,
               (RsAllocation)alloc, dimX);
     }
     rsAllocationResize1D((RsContext)con, (RsAllocation)alloc, dimX);
+#endif
 }
 
 
 static jlong
 nAllocationAdapterCreate(JNIEnv *_env, jobject _this, jlong con, jlong basealloc, jlong type)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationAdapterCreate, con(%p), base(%p), type(%p)",
               (RsContext)con, (RsAllocation)basealloc, (RsElement)type);
     }
     return (jlong)(uintptr_t) rsAllocationAdapterCreate((RsContext)con, (RsType)type,
                                                         (RsAllocation)basealloc);
-
+#endif
+    return 0;
 }
 
 static void
@@ -1632,6 +1783,7 @@ nAllocationAdapterOffset(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                         jint x, jint y, jint z, jint face, jint lod,
                         jint a1, jint a2, jint a3, jint a4)
 {
+#if 0
     uint32_t params[] = {
         (uint32_t)x, (uint32_t)y, (uint32_t)z, (uint32_t)face,
         (uint32_t)lod, (uint32_t)a1, (uint32_t)a2, (uint32_t)a3, (uint32_t)a4
@@ -1642,6 +1794,7 @@ nAllocationAdapterOffset(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
     }
     rsAllocationAdapterOffset((RsContext)con, (RsAllocation)alloc,
                               params, sizeof(params));
+#endif
 }
 
 
@@ -1650,16 +1803,20 @@ nAllocationAdapterOffset(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
 static jlong
 nFileA3DCreateFromAssetStream(JNIEnv *_env, jobject _this, jlong con, jlong native_asset)
 {
+#if 0
     Asset* asset = reinterpret_cast<Asset*>(native_asset);
     ALOGV("______nFileA3D %p", asset);
 
     jlong id = (jlong)(uintptr_t)rsaFileA3DCreateFromMemory((RsContext)con, asset->getBuffer(false), asset->getLength());
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nFileA3DCreateFromAsset(JNIEnv *_env, jobject _this, jlong con, jobject _assetMgr, jstring _path)
 {
+#if 0
     Guarded<AssetManager2>* mgr = AssetManagerForJavaObject(_env, _assetMgr);
     if (mgr == nullptr) {
         return 0;
@@ -1677,28 +1834,37 @@ nFileA3DCreateFromAsset(JNIEnv *_env, jobject _this, jlong con, jobject _assetMg
 
     jlong id = (jlong)(uintptr_t)rsaFileA3DCreateFromAsset((RsContext)con, asset.release());
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nFileA3DCreateFromFile(JNIEnv *_env, jobject _this, jlong con, jstring fileName)
 {
+#if 0
     AutoJavaStringToUTF8 fileNameUTF(_env, fileName);
     jlong id = (jlong)(uintptr_t)rsaFileA3DCreateFromFile((RsContext)con, fileNameUTF.c_str());
 
     return id;
+#endif
+    return 0;
 }
 
 static jint
 nFileA3DGetNumIndexEntries(JNIEnv *_env, jobject _this, jlong con, jlong fileA3D)
 {
+#if 0
     int32_t numEntries = 0;
     rsaFileA3DGetNumIndexEntries((RsContext)con, &numEntries, (RsFile)fileA3D);
     return (jint)numEntries;
+#endif
+    return 0;
 }
 
 static void
 nFileA3DGetIndexEntries(JNIEnv *_env, jobject _this, jlong con, jlong fileA3D, jint numEntries, jintArray _ids, jobjectArray _entries)
 {
+#if 0
     ALOGV("______nFileA3D %p", (RsFile) fileA3D);
     RsFileIndexEntry *fileEntries = (RsFileIndexEntry*)malloc((uint32_t)numEntries * sizeof(RsFileIndexEntry));
 
@@ -1710,14 +1876,18 @@ nFileA3DGetIndexEntries(JNIEnv *_env, jobject _this, jlong con, jlong fileA3D, j
     }
 
     free(fileEntries);
+#endif
 }
 
 static jlong
 nFileA3DGetEntryByIndex(JNIEnv *_env, jobject _this, jlong con, jlong fileA3D, jint index)
 {
+#if 0
     ALOGV("______nFileA3D %p", (RsFile) fileA3D);
     jlong id = (jlong)(uintptr_t)rsaFileA3DGetEntryByIndex((RsContext)con, (uint32_t)index, (RsFile)fileA3D);
     return id;
+#endif
+    return 0;
 }
 
 // -----------------------------------
@@ -1726,18 +1896,22 @@ static jlong
 nFontCreateFromFile(JNIEnv *_env, jobject _this, jlong con,
                     jstring fileName, jfloat fontSize, jint dpi)
 {
+#if 0
     AutoJavaStringToUTF8 fileNameUTF(_env, fileName);
     jlong id = (jlong)(uintptr_t)rsFontCreateFromFile((RsContext)con,
                                          fileNameUTF.c_str(), fileNameUTF.length(),
                                          fontSize, dpi);
 
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nFontCreateFromAssetStream(JNIEnv *_env, jobject _this, jlong con,
                            jstring name, jfloat fontSize, jint dpi, jlong native_asset)
 {
+#if 0
     Asset* asset = reinterpret_cast<Asset*>(native_asset);
     AutoJavaStringToUTF8 nameUTF(_env, name);
 
@@ -1746,12 +1920,15 @@ nFontCreateFromAssetStream(JNIEnv *_env, jobject _this, jlong con,
                                            fontSize, dpi,
                                            asset->getBuffer(false), asset->getLength());
     return id;
+#endif
+    return 0;
 }
 
 static jlong
 nFontCreateFromAsset(JNIEnv *_env, jobject _this, jlong con, jobject _assetMgr, jstring _path,
                      jfloat fontSize, jint dpi)
 {
+#if 0
     Guarded<AssetManager2>* mgr = AssetManagerForJavaObject(_env, _assetMgr);
     if (mgr == nullptr) {
         return 0;
@@ -1772,6 +1949,8 @@ nFontCreateFromAsset(JNIEnv *_env, jobject _this, jlong con, jobject _assetMgr, 
                                            fontSize, dpi,
                                            asset->getBuffer(false), asset->getLength());
     return id;
+#endif
+    return 0;
 }
 
 // -----------------------------------
@@ -1779,110 +1958,135 @@ nFontCreateFromAsset(JNIEnv *_env, jobject _this, jlong con, jobject _assetMgr, 
 static void
 nScriptBindAllocation(JNIEnv *_env, jobject _this, jlong con, jlong script, jlong alloc, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptBindAllocation, con(%p), script(%p), alloc(%p), slot(%i)", (RsContext)con,
               (RsScript)script, (RsAllocation)alloc, slot);
     }
     rsScriptBindAllocation((RsContext)con, (RsScript)script, (RsAllocation)alloc, slot);
+#endif
 }
 
 static void
 nScriptSetVarI(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jint val)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarI, con(%p), s(%p), slot(%i), val(%i)", (RsContext)con, (void *)script,
               slot, val);
     }
     rsScriptSetVarI((RsContext)con, (RsScript)script, slot, val);
+#endif
 }
 
 static jint
 nScriptGetVarI(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGetVarI, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
     int value = 0;
     rsScriptGetVarV((RsContext)con, (RsScript)script, slot, &value, sizeof(value));
     return value;
+#endif
+    return 0;
 }
 
 static void
 nScriptSetVarObj(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jlong val)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarObj, con(%p), s(%p), slot(%i), val(%" PRId64 ")", (RsContext)con, (void *)script,
               slot, val);
     }
     rsScriptSetVarObj((RsContext)con, (RsScript)script, slot, (RsObjectBase)val);
+#endif
 }
 
 static void
 nScriptSetVarJ(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jlong val)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarJ, con(%p), s(%p), slot(%i), val(%" PRId64 ")", (RsContext)con, (void *)script,
               slot, val);
     }
     rsScriptSetVarJ((RsContext)con, (RsScript)script, slot, val);
+#endif
 }
 
 static jlong
 nScriptGetVarJ(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGetVarJ, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
     jlong value = 0;
     rsScriptGetVarV((RsContext)con, (RsScript)script, slot, &value, sizeof(value));
     return value;
+#endif
+    return 0;
 }
 
 static void
 nScriptSetVarF(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, float val)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarF, con(%p), s(%p), slot(%i), val(%f)", (RsContext)con, (void *)script,
               slot, val);
     }
     rsScriptSetVarF((RsContext)con, (RsScript)script, slot, val);
+#endif
 }
 
 static jfloat
 nScriptGetVarF(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGetVarF, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
     jfloat value = 0;
     rsScriptGetVarV((RsContext)con, (RsScript)script, slot, &value, sizeof(value));
     return value;
+#endif
+    return 0;
 }
 
 static void
 nScriptSetVarD(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, double val)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarD, con(%p), s(%p), slot(%i), val(%lf)", (RsContext)con, (void *)script,
               slot, val);
     }
     rsScriptSetVarD((RsContext)con, (RsScript)script, slot, val);
+#endif
 }
 
 static jdouble
 nScriptGetVarD(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGetVarD, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
     jdouble value = 0;
     rsScriptGetVarV((RsContext)con, (RsScript)script, slot, &value, sizeof(value));
     return value;
+#endif
+    return 0;
 }
 
 static void
 nScriptSetVarV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jbyteArray data)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarV, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
@@ -1894,11 +2098,13 @@ nScriptSetVarV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, 
     }
     rsScriptSetVarV((RsContext)con, (RsScript)script, slot, ptr, len);
     _env->ReleaseByteArrayElements(data, ptr, JNI_ABORT);
+#endif
 }
 
 static void
 nScriptGetVarV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jbyteArray data)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarV, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
@@ -1910,12 +2116,14 @@ nScriptGetVarV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, 
     }
     rsScriptGetVarV((RsContext)con, (RsScript)script, slot, ptr, len);
     _env->ReleaseByteArrayElements(data, ptr, 0);
+#endif
 }
 
 static void
 nScriptSetVarVE(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jbyteArray data,
                 jlong elem, jintArray dims)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptSetVarVE, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
@@ -1935,12 +2143,14 @@ nScriptSetVarVE(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot,
                      (const uint32_t*) dimsPtr, dimsLen);
     _env->ReleaseByteArrayElements(data, ptr, JNI_ABORT);
     _env->ReleaseIntArrayElements(dims, dimsPtr, JNI_ABORT);
+#endif
 }
 
 
 static void
 nScriptSetTimeZone(JNIEnv *_env, jobject _this, jlong con, jlong script, jbyteArray timeZone)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptCSetTimeZone, con(%p), s(%p)", (RsContext)con, (void *)script);
     }
@@ -1958,20 +2168,24 @@ nScriptSetTimeZone(JNIEnv *_env, jobject _this, jlong con, jlong script, jbyteAr
     if (timeZone_ptr) {
         _env->ReleasePrimitiveArrayCritical(timeZone, timeZone_ptr, 0);
     }
+#endif
 }
 
 static void
 nScriptInvoke(JNIEnv *_env, jobject _this, jlong con, jlong obj, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptInvoke, con(%p), script(%p)", (RsContext)con, (void *)obj);
     }
     rsScriptInvoke((RsContext)con, (RsScript)obj, slot);
+#endif
 }
 
 static void
 nScriptInvokeV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, jbyteArray data)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptInvokeV, con(%p), s(%p), slot(%i)", (RsContext)con, (void *)script, slot);
     }
@@ -1983,6 +2197,7 @@ nScriptInvokeV(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot, 
     }
     rsScriptInvokeV((RsContext)con, (RsScript)script, slot, ptr, len);
     _env->ReleaseByteArrayElements(data, ptr, JNI_ABORT);
+#endif
 }
 
 static void
@@ -1990,6 +2205,7 @@ nScriptForEach(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot,
                jlongArray ains, jlong aout, jbyteArray params,
                jintArray limits)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptForEach, con(%p), s(%p), slot(%i) ains(%p) aout(%" PRId64 ")", (RsContext)con, (void *)script, slot, ains, aout);
     }
@@ -2096,12 +2312,14 @@ nScriptForEach(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot,
     if (limits != nullptr) {
         _env->ReleaseIntArrayElements(limits, limit_ptr, JNI_ABORT);
     }
+#endif
 }
 
 static void
 nScriptReduce(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot,
               jlongArray ains, jlong aout, jintArray limits)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptReduce, con(%p), s(%p), slot(%i) ains(%p) aout(%" PRId64 ")", (RsContext)con, (void *)script, slot, ains, aout);
     }
@@ -2191,6 +2409,7 @@ nScriptReduce(JNIEnv *_env, jobject _this, jlong con, jlong script, jint slot,
     if (limits != nullptr) {
         _env->ReleaseIntArrayElements(limits, limit_ptr, JNI_ABORT);
     }
+#endif
 }
 
 // -----------------------------------
@@ -2200,6 +2419,7 @@ nScriptCCreate(JNIEnv *_env, jobject _this, jlong con,
                jstring resName, jstring cacheDir,
                jbyteArray scriptRef, jint length)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptCCreate, con(%p)", (RsContext)con);
     }
@@ -2248,52 +2468,67 @@ exit:
     }
 
     return (jlong)(uintptr_t)ret;
+#endif
+    return 0;
 }
 
 static jlong
 nScriptIntrinsicCreate(JNIEnv *_env, jobject _this, jlong con, jint id, jlong eid)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptIntrinsicCreate, con(%p) id(%i) element(%p)", (RsContext)con, id,
               (void *)eid);
     }
     return (jlong)(uintptr_t)rsScriptIntrinsicCreate((RsContext)con, id, (RsElement)eid);
+#endif
+    return 0;
 }
 
 static jlong
 nScriptKernelIDCreate(JNIEnv *_env, jobject _this, jlong con, jlong sid, jint slot, jint sig)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptKernelIDCreate, con(%p) script(%p), slot(%i), sig(%i)", (RsContext)con,
               (void *)sid, slot, sig);
     }
     return (jlong)(uintptr_t)rsScriptKernelIDCreate((RsContext)con, (RsScript)sid, slot, sig);
+#endif
+    return 0;
 }
 
 static jlong
 nScriptInvokeIDCreate(JNIEnv *_env, jobject _this, jlong con, jlong sid, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptInvokeIDCreate, con(%p) script(%p), slot(%i)", (RsContext)con,
               (void *)sid, slot);
     }
     return (jlong)(uintptr_t)rsScriptInvokeIDCreate((RsContext)con, (RsScript)sid, slot);
+#endif
+    return 0;
 }
 
 static jlong
 nScriptFieldIDCreate(JNIEnv *_env, jobject _this, jlong con, jlong sid, jint slot)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptFieldIDCreate, con(%p) script(%p), slot(%i)", (RsContext)con, (void *)sid,
               slot);
     }
     return (jlong)(uintptr_t)rsScriptFieldIDCreate((RsContext)con, (RsScript)sid, slot);
+#endif
+    return 0;
 }
 
 static jlong
 nScriptGroupCreate(JNIEnv *_env, jobject _this, jlong con, jlongArray _kernels, jlongArray _src,
     jlongArray _dstk, jlongArray _dstf, jlongArray _types)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGroupCreate, con(%p)", (RsContext)con);
     }
@@ -2397,35 +2632,43 @@ cleanup:
     }
 
     return id;
+#endif
+    return 0;
 }
 
 static void
 nScriptGroupSetInput(JNIEnv *_env, jobject _this, jlong con, jlong gid, jlong kid, jlong alloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGroupSetInput, con(%p) group(%p), kernelId(%p), alloc(%p)", (RsContext)con,
               (void *)gid, (void *)kid, (void *)alloc);
     }
     rsScriptGroupSetInput((RsContext)con, (RsScriptGroup)gid, (RsScriptKernelID)kid, (RsAllocation)alloc);
+#endif
 }
 
 static void
 nScriptGroupSetOutput(JNIEnv *_env, jobject _this, jlong con, jlong gid, jlong kid, jlong alloc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGroupSetOutput, con(%p) group(%p), kernelId(%p), alloc(%p)", (RsContext)con,
               (void *)gid, (void *)kid, (void *)alloc);
     }
     rsScriptGroupSetOutput((RsContext)con, (RsScriptGroup)gid, (RsScriptKernelID)kid, (RsAllocation)alloc);
+#endif
 }
 
 static void
 nScriptGroupExecute(JNIEnv *_env, jobject _this, jlong con, jlong gid)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nScriptGroupSetOutput, con(%p) group(%p)", (RsContext)con, (void *)gid);
     }
     rsScriptGroupExecute((RsContext)con, (RsScriptGroup)gid);
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -2437,12 +2680,15 @@ nProgramStoreCreate(JNIEnv *_env, jobject _this, jlong con,
                     jint srcFunc, jint destFunc,
                     jint depthFunc)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nProgramStoreCreate, con(%p)", (RsContext)con);
     }
     return (jlong)(uintptr_t)rsProgramStoreCreate((RsContext)con, colorMaskR, colorMaskG, colorMaskB, colorMaskA,
                                       depthMask, ditherEnable, (RsBlendSrcFunc)srcFunc,
                                       (RsBlendDstFunc)destFunc, (RsDepthFunc)depthFunc);
+#endif
+    return 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -2450,31 +2696,37 @@ nProgramStoreCreate(JNIEnv *_env, jobject _this, jlong con,
 static void
 nProgramBindConstants(JNIEnv *_env, jobject _this, jlong con, jlong vpv, jint slot, jlong a)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nProgramBindConstants, con(%p), vpf(%p), sloat(%i), a(%p)", (RsContext)con,
               (RsProgramVertex)vpv, slot, (RsAllocation)a);
     }
     rsProgramBindConstants((RsContext)con, (RsProgram)vpv, slot, (RsAllocation)a);
+#endif
 }
 
 static void
 nProgramBindTexture(JNIEnv *_env, jobject _this, jlong con, jlong vpf, jint slot, jlong a)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nProgramBindTexture, con(%p), vpf(%p), slot(%i), a(%p)", (RsContext)con,
               (RsProgramFragment)vpf, slot, (RsAllocation)a);
     }
     rsProgramBindTexture((RsContext)con, (RsProgramFragment)vpf, slot, (RsAllocation)a);
+#endif
 }
 
 static void
 nProgramBindSampler(JNIEnv *_env, jobject _this, jlong con, jlong vpf, jint slot, jlong a)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nProgramBindSampler, con(%p), vpf(%p), slot(%i), a(%p)", (RsContext)con,
               (RsProgramFragment)vpf, slot, (RsSampler)a);
     }
     rsProgramBindSampler((RsContext)con, (RsProgramFragment)vpf, slot, (RsSampler)a);
+#endif
 }
 
 // ---------------------------------------------------------------------------
@@ -2483,6 +2735,7 @@ static jlong
 nProgramFragmentCreate(JNIEnv *_env, jobject _this, jlong con, jstring shader,
                        jobjectArray texNames, jlongArray params)
 {
+#if 0
     AutoJavaStringToUTF8 shaderUTF(_env, shader);
     jlong *jParamPtr = _env->GetLongArrayElements(params, nullptr);
     jint paramLen = _env->GetArrayLength(params);
@@ -2511,6 +2764,8 @@ nProgramFragmentCreate(JNIEnv *_env, jobject _this, jlong con, jstring shader,
     free(paramPtr);
     _env->ReleaseLongArrayElements(params, jParamPtr, JNI_ABORT);
     return ret;
+#endif
+    return 0;
 }
 
 
@@ -2520,6 +2775,7 @@ static jlong
 nProgramVertexCreate(JNIEnv *_env, jobject _this, jlong con, jstring shader,
                      jobjectArray texNames, jlongArray params)
 {
+#if 0
     AutoJavaStringToUTF8 shaderUTF(_env, shader);
     jlong *jParamPtr = _env->GetLongArrayElements(params, nullptr);
     jint paramLen = _env->GetArrayLength(params);
@@ -2549,6 +2805,8 @@ nProgramVertexCreate(JNIEnv *_env, jobject _this, jlong con, jstring shader,
     free(paramPtr);
     _env->ReleaseLongArrayElements(params, jParamPtr, JNI_ABORT);
     return ret;
+#endif
+    return 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -2556,11 +2814,14 @@ nProgramVertexCreate(JNIEnv *_env, jobject _this, jlong con, jstring shader,
 static jlong
 nProgramRasterCreate(JNIEnv *_env, jobject _this, jlong con, jboolean pointSprite, jint cull)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nProgramRasterCreate, con(%p), pointSprite(%i), cull(%i)", (RsContext)con,
               pointSprite, cull);
     }
     return (jlong)(uintptr_t)rsProgramRasterCreate((RsContext)con, pointSprite, (RsCullMode)cull);
+#endif
+    return 0;
 }
 
 
@@ -2569,47 +2830,57 @@ nProgramRasterCreate(JNIEnv *_env, jobject _this, jlong con, jboolean pointSprit
 static void
 nContextBindRootScript(JNIEnv *_env, jobject _this, jlong con, jlong script)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextBindRootScript, con(%p), script(%p)", (RsContext)con, (RsScript)script);
     }
     rsContextBindRootScript((RsContext)con, (RsScript)script);
+#endif
 }
 
 static void
 nContextBindProgramStore(JNIEnv *_env, jobject _this, jlong con, jlong pfs)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextBindProgramStore, con(%p), pfs(%p)", (RsContext)con, (RsProgramStore)pfs);
     }
     rsContextBindProgramStore((RsContext)con, (RsProgramStore)pfs);
+#endif
 }
 
 static void
 nContextBindProgramFragment(JNIEnv *_env, jobject _this, jlong con, jlong pf)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextBindProgramFragment, con(%p), pf(%p)", (RsContext)con,
               (RsProgramFragment)pf);
     }
     rsContextBindProgramFragment((RsContext)con, (RsProgramFragment)pf);
+#endif
 }
 
 static void
 nContextBindProgramVertex(JNIEnv *_env, jobject _this, jlong con, jlong pf)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextBindProgramVertex, con(%p), pf(%p)", (RsContext)con, (RsProgramVertex)pf);
     }
     rsContextBindProgramVertex((RsContext)con, (RsProgramVertex)pf);
+#endif
 }
 
 static void
 nContextBindProgramRaster(JNIEnv *_env, jobject _this, jlong con, jlong pf)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nContextBindProgramRaster, con(%p), pf(%p)", (RsContext)con, (RsProgramRaster)pf);
     }
     rsContextBindProgramRaster((RsContext)con, (RsProgramRaster)pf);
+#endif
 }
 
 
@@ -2619,6 +2890,7 @@ static jlong
 nSamplerCreate(JNIEnv *_env, jobject _this, jlong con, jint magFilter, jint minFilter,
                jint wrapS, jint wrapT, jint wrapR, jfloat aniso)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nSamplerCreate, con(%p)", (RsContext)con);
     }
@@ -2629,6 +2901,8 @@ nSamplerCreate(JNIEnv *_env, jobject _this, jlong con, jint magFilter, jint minF
                                  (RsSamplerValue)wrapT,
                                  (RsSamplerValue)wrapR,
                                  aniso);
+#endif
+    return 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -2636,6 +2910,7 @@ nSamplerCreate(JNIEnv *_env, jobject _this, jlong con, jint magFilter, jint minF
 static jlong
 nMeshCreate(JNIEnv *_env, jobject _this, jlong con, jlongArray _vtx, jlongArray _idx, jintArray _prim)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nMeshCreate, con(%p)", (RsContext)con);
     }
@@ -2696,33 +2971,42 @@ cleanupMesh:
     }
 
     return id;
+#endif
+    return 0;
 }
 
 static jint
 nMeshGetVertexBufferCount(JNIEnv *_env, jobject _this, jlong con, jlong mesh)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nMeshGetVertexBufferCount, con(%p), Mesh(%p)", (RsContext)con, (RsMesh)mesh);
     }
     jint vtxCount = 0;
     rsaMeshGetVertexBufferCount((RsContext)con, (RsMesh)mesh, &vtxCount);
     return vtxCount;
+#endif
+    return 0;
 }
 
 static jint
 nMeshGetIndexCount(JNIEnv *_env, jobject _this, jlong con, jlong mesh)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nMeshGetIndexCount, con(%p), Mesh(%p)", (RsContext)con, (RsMesh)mesh);
     }
     jint idxCount = 0;
     rsaMeshGetIndexCount((RsContext)con, (RsMesh)mesh, &idxCount);
     return idxCount;
+#endif
+    return 0;
 }
 
 static void
 nMeshGetVertices(JNIEnv *_env, jobject _this, jlong con, jlong mesh, jlongArray _ids, jint numVtxIDs)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nMeshGetVertices, con(%p), Mesh(%p)", (RsContext)con, (RsMesh)mesh);
     }
@@ -2736,11 +3020,13 @@ nMeshGetVertices(JNIEnv *_env, jobject _this, jlong con, jlong mesh, jlongArray 
     }
 
     free(allocs);
+#endif
 }
 
 static void
 nMeshGetIndices(JNIEnv *_env, jobject _this, jlong con, jlong mesh, jlongArray _idxIds, jintArray _primitives, jint numIndices)
 {
+#if 0
     if (kLogApi) {
         ALOGD("nMeshGetVertices, con(%p), Mesh(%p)", (RsContext)con, (RsMesh)mesh);
     }
@@ -2759,6 +3045,7 @@ nMeshGetIndices(JNIEnv *_env, jobject _this, jlong con, jlong mesh, jlongArray _
 
     free(allocs);
     free(prims);
+#endif
 }
 
 static jint
@@ -2770,6 +3057,7 @@ static jobject
 nAllocationGetByteBuffer(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
                         jlongArray strideArr, jint xBytesSize,
                         jint dimY, jint dimZ) {
+#if 0
     if (kLogApi) {
         ALOGD("nAllocationGetByteBuffer, con(%p), alloc(%p)", (RsContext)con, (RsAllocation)alloc);
     }
@@ -2802,6 +3090,8 @@ nAllocationGetByteBuffer(JNIEnv *_env, jobject _this, jlong con, jlong alloc,
     }
     _env->ReleaseLongArrayElements(strideArr, jStridePtr, 0);
     return byteBuffer;
+#endif
+    return nullptr;
 }
 // ---------------------------------------------------------------------------
 
