@@ -31,7 +31,8 @@
 
     <target_preparer class="com.android.tradefed.targetprep.PushFilePreparer">
         <option name="cleanup" value="true" />
-        <option name="push" value="block_device_writer->/data/local/tmp/block_device_writer" />
+	<option name="push" value="block_device_writer->/data/local/tmp/block_device_writer" />
+	<option name="push" value="block_device_writer64->/data/local/tmp/block_device_writer" />
         <option name="push" value="ApkVerityTestCert.der->/data/local/tmp/ApkVerityTestCert.der" />
     </target_preparer>
 
